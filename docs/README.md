@@ -1,6 +1,6 @@
 # Extensão saber-pb
 
-Extensão para facilitar a vida dos professores ao cadastrar informações no [site do saber do Governo do Estado da Paraíba](http://www.saber.pb.gov.br/).
+Extensão para facilitar a vida dos professores ao cadastrar informações no [site do saber do Governo do Estado da Paraíba](http://1gre.saber.pb.gov.br/).
 
 # Resumo executivo
 

@@ -1,8 +1,8 @@
 // Saves options to chrome.storage
 function save_options() {
   //var color = document.getElementById('color').value;
-  var registros= document.getElementById('registros').value.trim().replace(/\|/gi,'\t');
-  var aulas_seguidas=document.getElementById('aulas_seguidas').value.trim();
+  var registros = document.getElementById('registros').value.trim().replace(/\|/gi, '\t');
+  var aulas_seguidas = document.getElementById('aulas_seguidas').value.trim();
   var justificativa = document.getElementById('justificativa').value.trim();
   const presenca = document.getElementById('presenca').value;
   const assinatura = document.getElementById('assinatura').checked;
@@ -15,12 +15,12 @@ function save_options() {
     presenca: presenca,
     assinatura: assinatura
   }, function() {
-  // Update status to let user know options were saved.
-  var status = document.getElementById('status');
-  status.textContent = 'Opções salvas.';
-  setTimeout(function() {
-  status.textContent = '';
-  }, 750);
+    // Update status to let user know options were saved.
+    var status = document.getElementById('status');
+    status.textContent = 'Opções salvas.';
+    setTimeout(function() {
+      status.textContent = '';
+    }, 750);
   });
 }
 
@@ -47,11 +47,11 @@ function restore_options() {
 }
 
 
-function atualizaTurmas(){
+function atualizaTurmas() {
   chrome.storage.local.get({
     turmas: [],
     turmaAtual: -1
-  },function(data){
+  }, function(data) {
 
     console.log(`Carregando turmas: ${data.turmas}`)
 
@@ -59,59 +59,59 @@ function atualizaTurmas(){
 
     // apaga valores anteriores, caso existam
     for (i = select.length - 1; i >= 0; i--) {
-  	   select.remove(i);
+      select.remove(i);
     }
 
-    for (t of data.turmas){
+    for (t of data.turmas) {
       var option = document.createElement("option");
       option.text = t[0];
       option.value = t[1]
       select.add(option);
     }
 
-    if (data.turmaAtual>0){
+    if (data.turmaAtual > 0) {
       select.value = data.turmaAtual;
     }
 
   });
 }
 
-function limpar(){
-  document.getElementById('registros').value='';
-  chrome.storage.sync.set({registros: ''})
+function limpar() {
+  document.getElementById('registros').value = '';
+  chrome.storage.sync.set({ registros: '' })
 }
 
-function guardar(){
+function guardar() {
   save_options();
-  var registros=document.getElementById('registros').value.trim();
+  var registros = document.getElementById('registros').value.trim();
   chrome.storage.local.set({
     guardado: registros
   })
 }
 
-function recuperar(){
+function recuperar() {
   chrome.storage.local.get({
     guardado: ""
-  }, function(data){
+  }, function(data) {
     chrome.storage.sync.set({
       registros: data.guardado
     })
   })
 }
 
-function atualizaPilhaStatus(){
+function atualizaPilhaStatus() {
   chrome.storage.local.get({
     guardado: ""
-  }, function(data){
+  }, function(data) {
     console.log(`Registro guardado: (${data.guardado})`)
 
-    var recuperar=document.getElementById('recuperar');
-    var status=document.getElementById('pilhaStatus');
+    var recuperar = document.getElementById('recuperar');
+    var status = document.getElementById('pilhaStatus');
 
-    if(data.guardado){
+    if (data.guardado) {
       recuperar.disabled = false
       status.textContent = "*";
-    }else{
+    } else {
       recuperar.disabled = true
       status.textContent = "";
     }
@@ -124,11 +124,11 @@ function atualizaPilhaStatus(){
 function abrirTurma() {
   // abrir abas de novo registro de aula
   var turma = document.getElementById('turma');
-  if (turma.selectedIndex>=0){
-    console.log(`Abrindo turma: ${turma.options[turma.selectedIndex].text} - ${turma.value}` )
-      // http://www.saber.pb.gov.br/platform/teachings/1042547/class_logs
-      var url = `http://www.saber.pb.gov.br/platform/teachings/${turma.value}/class_logs`
-      chrome.tabs.create({url: url})
+  if (turma.selectedIndex >= 0) {
+    console.log(`Abrindo turma: ${turma.options[turma.selectedIndex].text} - ${turma.value}`)
+      // http://1gre.saber.pb.gov.br/platform/teachings/1042547/class_logs
+    var url = `http://1gre.saber.pb.gov.br/platform/teachings/${turma.value}/class_logs`
+    chrome.tabs.create({ url: url })
   }
 }
 
@@ -136,47 +136,48 @@ function abrirTurma() {
 function criarAulas() {
   save_options();
   // abrir abas de novo registro de aula
-  var registros=document.getElementById('registros').value.trim().split("\n");
+  var registros = document.getElementById('registros').value.trim().split("\n");
   var turma = document.getElementById('turma');
-  if (turma.selectedIndex>=0){
-    console.log(`Criando registros de aula para: ${turma.options[turma.selectedIndex].text} - ${turma.value}` )
-    for(r of registros){
-      // http://www.saber.pb.gov.br/platform/teachings/1042547/class_logs/new
-      var url = `http://www.saber.pb.gov.br/platform/teachings/${turma.value}/class_logs/new`
-      chrome.tabs.create({url: url})
+  if (turma.selectedIndex >= 0) {
+    console.log(`Criando registros de aula para: ${turma.options[turma.selectedIndex].text} - ${turma.value}`)
+    for (r of registros) {
+      // http://1gre.saber.pb.gov.br/platform/teachings/1042547/class_logs/new
+      var url = `http://1gre.saber.pb.gov.br/platform/teachings/${turma.value}/class_logs/new`
+      chrome.tabs.create({ url: url })
     }
   }
 }
+
 function criarFrequencias() {
   save_options();
-  var registros=document.getElementById('registros').value.trim().split("\n");
+  var registros = document.getElementById('registros').value.trim().split("\n");
   var turma = document.getElementById('turma');
-  console.log(`Criando registros de aula para: ${turma.options[turma.selectedIndex].text} - ${turma.value}` )
+  console.log(`Criando registros de aula para: ${turma.options[turma.selectedIndex].text} - ${turma.value}`)
   var ultima_quantidade_de_aulas = -1;
-  for(r of registros){
+  for (r of registros) {
 
-    var aulas_seguidas=r.split("\t")[0]
+    var aulas_seguidas = r.split("\t")[0]
 
-    if(ultima_quantidade_de_aulas!=-1){
-      if (aulas_seguidas!=ultima_quantidade_de_aulas){
+    if (ultima_quantidade_de_aulas != -1) {
+      if (aulas_seguidas != ultima_quantidade_de_aulas) {
         // cria abas somente para quantidade de aulas identicas
         // para evitar problema de concorrência
         break;
       }
     }
 
-    //http://www.saber.pb.gov.br/platform/teachings/1078922/class_frequencies/new?utf8=%E2%9C%93&classes=3&button=
-    var url = `http://www.saber.pb.gov.br/platform/teachings/${turma.value}/class_frequencies/new?utf8=%E2%9C%93&classes=${aulas_seguidas}&button=`
-    chrome.tabs.create({url: url})
+    //http://1gre.saber.pb.gov.br/platform/teachings/1078922/class_frequencies/new?utf8=%E2%9C%93&classes=3&button=
+    var url = `http://1gre.saber.pb.gov.br/platform/teachings/${turma.value}/class_frequencies/new?utf8=%E2%9C%93&classes=${aulas_seguidas}&button=`
+    chrome.tabs.create({ url: url })
     ultima_quantidade_de_aulas = r[0]
   }
 }
 
-function atualizaPassosDaAssinatura(){
-  if (document.getElementById('assinatura').checked){
+function atualizaPassosDaAssinatura() {
+  if (document.getElementById('assinatura').checked) {
     document.getElementById('assinatura_step').className = "completed step";
     $("#considere_assinatura").hide();
-  }else{
+  } else {
     document.getElementById('assinatura_step').className = "active step";
     $("#considere_assinatura").show();
   }
@@ -198,21 +199,21 @@ document.addEventListener('DOMContentLoaded', atualizaTurmas);
 document.addEventListener('DOMContentLoaded', atualizaPilhaStatus);
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for (key in changes) {
-    	if (key == "registros"){
-    		restore_options();
-    	}
+  for (key in changes) {
+    if (key == "registros") {
+      restore_options();
     }
-  });
+  }
+});
 
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for (key in changes) {
-    	if (key == "turmas" || key == "turmaAtual"){
-    		atualizaTurmas();
-    	}
-      if(key=="guardado"){
-        atualizaPilhaStatus();
-      }
+  for (key in changes) {
+    if (key == "turmas" || key == "turmaAtual") {
+      atualizaTurmas();
     }
+    if (key == "guardado") {
+      atualizaPilhaStatus();
+    }
+  }
 });

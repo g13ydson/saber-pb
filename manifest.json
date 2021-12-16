@@ -1,32 +1,30 @@
 {
-	"manifest_version": 3,
-	"version": "2021.6.19",
-	"name": "Saber PB",
-	"short_name": "saber-pb",
-	"description": "Auxilia os professores do governo do estado da Paraíba agilizando a edição da plataforma do saber.",
-	"homepage_url" : "https://edusantana.github.io/saber-pb/",
-	"permissions": [
-		"storage"	
-	],
-	"icons": {
-		"16": "icon16.png",
-		"48": "icon48.png",
-		"128": "icon128.png"
-	},
-	"options_page": "options.html",
-	"content_scripts": [
-		{
-			"matches": [
-				"http://www.saber.pb.gov.br/platform/*",
-				"http://saber.pb.gov.br/platform/*",
-				"https://www.saber.pb.gov.br/platform/*",
-				"https://saber.pb.gov.br/platform/*"
+  "manifest_version": 3,
+  "version": "2021.6.19",
+  "name": "Saber PB 1ª GRE",
+  "short_name": "saber-pb",
+  "description": "Auxilia os professores do governo do estado da Paraíba agilizando a edição da plataforma do saber.",
+  "homepage_url": "https://edusantana.github.io/saber-pb/",
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "options_page": "options.html",
+  "content_scripts": [{
+    "matches": [
+      "http://www.1gre.saber.pb.gov.br/platform/*",
+      "http://1gre.saber.pb.gov.br/platform/*",
+      "https://www.1gre.saber.pb.gov.br/platform/*",
+      "https://1gre.saber.pb.gov.br/platform/*"
 
-			],
-			"js": [
-				"js/luxon.min.js",
-				"saber.js"
-			]
-		}
-	]
+    ],
+    "js": [
+      "js/luxon.min.js",
+      "saber.js"
+    ]
+  }]
 }
